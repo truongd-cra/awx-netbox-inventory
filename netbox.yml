@@ -1,0 +1,16 @@
+plugin: netbox.netbox.nb_inventory
+
+api_endpoint: http://192.168.4.33:8000
+token: X3tSCZrot153
+validate_certs: false
+
+config_context: false
+interfaces: false
+services: false
+
+query_filters:
+  - status: active
+
+compose:
+  inventory_hostname: name
+  ansible_host: primary_ip.address
