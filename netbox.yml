@@ -2,10 +2,6 @@ plugin: netbox.netbox.nb_inventory
 api_endpoint: http://192.168.4.33:8000
 validate_certs: false
 
-token:
-  type: Bearer
-  value: "nbt_iFoaGkhxErSM.Nxs7MdKHZLNV0bHyurPv91VhHg8EhUIwyp0I88M9"
-
 config_context: false
 interfaces: false
 services: false
