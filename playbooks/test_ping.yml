@@ -1,0 +1,8 @@
+---
+- name: Test connectivity from AWX inventory
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Ping Linux hosts
+      ansible.builtin.ping:
