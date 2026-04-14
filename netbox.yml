@@ -1,19 +1,15 @@
----
 plugin: netbox.netbox.nb_inventory
 
-api_endpoint: "https://netbox.reginaassumpta.qc.ca"
-token: "Token EjBMwW7sULPFkAEXFpqnJlMUa2pyOcJqHHwQ5tv4"
+api_endpoint: https://netbox.reginaassumpta.qc.ca/
 validate_certs: false
 
-config_context: true
+config_context: false
+interfaces: false
+services: false
 
-group_by:
-  - device_roles
-
-device_query_filters:
-  - has_primary_ip: 'true'
+query_filters:
   - status: active
 
 compose:
   inventory_hostname: name
-  ansible_host: primary_ip.address.split('/')[0]
+  ansible_host: primary_ip.address
