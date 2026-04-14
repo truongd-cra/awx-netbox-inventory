@@ -2,7 +2,7 @@
 plugin: netbox.netbox.nb_inventory
 
 api_endpoint: "https://netbox.reginaassumpta.qc.ca"
-token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
+token: "Token EjBMwW7sULPFkAEXFpqnJlMUa2pyOcJqHHwQ5tv4"
 validate_certs: false
 
 config_context: true
