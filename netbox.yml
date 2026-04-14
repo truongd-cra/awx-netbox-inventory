@@ -1,12 +1,17 @@
+---
 plugin: netbox.netbox.nb_inventory
-api_endpoint: http://192.168.4.33:8000
+
+api_endpoint: "https://netbox.reginaassumpta.qc.ca"
+token: "{{ lookup('env', 'NETBOX_TOKEN') }}"
 validate_certs: false
 
-config_context: false
-interfaces: false
-services: false
+config_context: true
 
-query_filters:
+group_by:
+  - device_roles
+
+device_query_filters:
+  - has_primary_ip: 'true'
   - status: active
 
 compose:
