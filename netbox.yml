@@ -10,6 +10,9 @@ services: false
 query_filters:
   - status: active
 
+group_by:
+  - device_roles
+
 compose:
   inventory_hostname: name
-  ansible_host: primary_ip.address.split('/')[0] if primary_ip else ''
+  ansible_host: primary_ip4.address.split('/')[0] if primary_ip4 else ''
