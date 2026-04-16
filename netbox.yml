@@ -12,6 +12,7 @@ query_filters:
 
 group_by:
   - device_roles
+  - platforms
 
 compose:
   inventory_hostname: name
