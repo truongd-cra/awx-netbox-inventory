@@ -12,4 +12,4 @@ query_filters:
 
 compose:
   inventory_hostname: name
-  ansible_host: primary_ip.address
+  ansible_host: primary_ip.address.split('/')[0] if primary_ip else ''
