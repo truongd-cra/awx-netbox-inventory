@@ -1,6 +1,6 @@
 ---
 - name: Test Windows connectivity
-  hosts: platforms_windows
+  hosts: Activemon2022
   gather_facts: false
 
   tasks:
