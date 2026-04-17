@@ -1,6 +1,6 @@
 ---
 - name: Test Linux connectivity
-  hosts: WCRA2
+  hosts: Smb-web
   gather_facts: false
 
   tasks:
