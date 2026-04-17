@@ -1,6 +1,6 @@
 ---
 - name: Test Linux connectivity
-  hosts: 3CX
+  hosts: Moodle
   gather_facts: false
 
   tasks:
