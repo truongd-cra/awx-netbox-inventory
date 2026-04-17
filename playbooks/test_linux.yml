@@ -1,6 +1,6 @@
 ---
 - name: Test Linux connectivity
-  hosts: Moodle
+  hosts: WCRA2
   gather_facts: false
 
   tasks:
