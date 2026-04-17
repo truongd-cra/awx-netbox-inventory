@@ -1,6 +1,6 @@
 ---
 - name: Test Linux connectivity
-  hosts: NOM_DU_SERVEUR_LINUX
+  hosts: 3CX
   gather_facts: false
 
   tasks:
