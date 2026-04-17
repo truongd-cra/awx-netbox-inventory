@@ -1,0 +1,72 @@
+---
+- name: Install Zabbix Agent 2 on Linux servers
+  hosts: device_roles_serveur
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Skip Windows hosts
+      ansible.builtin.meta: end_host
+      when: ansible_system is defined and ansible_system == "Win32NT"
+
+    - name: Install required packages
+      ansible.builtin.apt:
+        name:
+          - wget
+          - gnupg
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Download Zabbix repository package
+      ansible.builtin.get_url:
+        url: https://repo.zabbix.com/zabbix/7.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_latest_7.0+ubuntu_all.deb
+        dest: /tmp/zabbix-release.deb
+      when: ansible_os_family == "Debian"
+
+    - name: Install Zabbix repository
+      ansible.builtin.apt:
+        deb: /tmp/zabbix-release.deb
+      when: ansible_os_family == "Debian"
+
+    - name: Update apt cache after repo install
+      ansible.builtin.apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Install Zabbix Agent 2
+      ansible.builtin.apt:
+        name: zabbix-agent2
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Configure Zabbix Agent 2
+      ansible.builtin.copy:
+        dest: /etc/zabbix/zabbix_agent2.conf
+        content: |
+          PidFile=/run/zabbix/zabbix_agent2.pid
+          LogFile=/var/log/zabbix/zabbix_agent2.log
+          Server=192.168.56.4
+          ServerActive=192.168.56.4
+          Hostname={{ inventory_hostname }}
+          Include=/etc/zabbix/zabbix_agent2.d/*.conf
+          PluginSocket=/run/zabbix/agent.plugin.sock
+          ControlSocket=/run/zabbix/agent.sock
+        owner: root
+        group: root
+        mode: '0644'
+      notify: Restart zabbix agent
+      when: ansible_os_family == "Debian"
+
+    - name: Enable and start Zabbix Agent 2
+      ansible.builtin.systemd:
+        name: zabbix-agent2
+        state: started
+        enabled: yes
+      when: ansible_os_family == "Debian"
+
+  handlers:
+    - name: Restart zabbix agent
+      ansible.builtin.systemd:
+        name: zabbix-agent2
+        state: restarted
