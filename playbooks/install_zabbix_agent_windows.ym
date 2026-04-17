@@ -1,0 +1,37 @@
+---
+- name: Install Zabbix Agent 2 on Windows
+  hosts: platforms_windows
+  gather_facts: false
+
+  vars:
+    zabbix_server: "192.168.56.4"
+    zabbix_version: "7.0.25"
+    zabbix_agent_msi_url: "https://cdn.zabbix.com/zabbix/binaries/stable/7.0/{{ zabbix_version }}/zabbix_agent2-{{ zabbix_version }}-windows-amd64-openssl.msi"
+    zabbix_agent_msi_path: "C:\\Temp\\zabbix_agent2.msi"
+
+  tasks:
+    - name: Create temp directory
+      ansible.windows.win_file:
+        path: C:\Temp
+        state: directory
+
+    - name: Download Zabbix Agent 2
+      ansible.windows.win_get_url:
+        url: "{{ zabbix_agent_msi_url }}"
+        dest: "{{ zabbix_agent_msi_path }}"
+
+    - name: Install Zabbix Agent 2
+      ansible.windows.win_package:
+        path: "{{ zabbix_agent_msi_path }}"
+        state: present
+        arguments: >
+          /qn
+          SERVER={{ zabbix_server }}
+          SERVERACTIVE={{ zabbix_server }}
+          HOSTNAME={{ inventory_hostname }}
+
+    - name: Ensure Zabbix Agent 2 service is started
+      ansible.windows.win_service:
+        name: "Zabbix Agent 2"
+        start_mode: auto
+        state: started
